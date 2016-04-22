@@ -23,11 +23,15 @@ def get_faces_rect(image):
 def downloadImage(url):
     opener = urllib2.build_opener()
     opener.addheaders = [('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.137 Safari/537.36')]
-    handle = opener.open(url)
-    if (handle.getcode() == 200):
-        image = np.asarray(bytearray(handle.read()), dtype=np.uint8)
-        image = cv2.imdecode(image, cv2.IMREAD_GRAYSCALE)
-        return image
+    try:
+        handle = opener.open(url)
+        if (handle.getcode() == 200):
+            image = np.asarray(bytearray(handle.read()), dtype=np.uint8)
+            image = cv2.imdecode(image, cv2.IMREAD_GRAYSCALE)
+            return image
+    except:
+        pass
+
     return None
 
 # Creates our eigenmodel
@@ -67,6 +71,9 @@ def compare_eigenmodel(url='http://i.imgur.com/q6IYKCO.jpg'):
     model.load(eigenmodel_xml_file_path)
 
     image = downloadImage(url)
+
+    if image is None:
+        return None
 
     rects = get_faces_rect(image)
 
@@ -111,6 +118,8 @@ def get_emotion(url='http://www.scientificamerican.com/sciam/cache/file/35391452
 # Finds out how approachable someone is
 def get_approachability(url):
     confidence = compare_eigenmodel(url)
+    if confidence is None:
+        return None
     emotions = get_emotion(url)
 
     relatability_percentage = abs(1-(confidence/10000))

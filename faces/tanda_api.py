@@ -48,10 +48,13 @@ def delete(extension, token):
 def get_users(username = 'kendricktan0814@gmail.com', password = 'tandahack2016'):
     token = authenticate(username, password, "user me")
 
-    # Use token to get information about your userlist
-    # And chucks it into json file
-    users = json.loads(get("users", token).content)
-    return users
+    try:
+        # Use token to get information about your userlist
+        # And chucks it into json file
+        users = json.loads(get("users", token).content)
+        return users
+    except:
+        return None 
 
     #for user in users:
     #    print(user['photo'])

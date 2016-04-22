@@ -21,6 +21,9 @@ def analyze(request):
         # Gets dict for tanda users
         users = tanda_api.get_users(email, password)
 
+        if 'error' in users:
+            return HttpResponse('Login details are most likely incorrect')
+
         # Trys and download each image and give a confidence rating
         # if there is a picture
         for user in users:
@@ -29,6 +32,8 @@ def analyze(request):
             user_photo_url = user['photo']
             user_name = user['name']
             user_approachability = get_approachability(user_photo_url)
+            if user_approachability is None:
+                user_approachability = 'image not found.'
 
             cur_user_dict['photo'] = user_photo_url
             cur_user_dict['name'] = user_name
@@ -38,8 +43,12 @@ def analyze(request):
 
     elif len(url) > 0:
         cur_user_dict = {}
+        user_approachability = get_approachability(url)
 
-        cur_user_dict['approachability'] = get_approachability(url)
+        if user_approachability is None:
+            user_approachability = 'image not found.'
+
+        cur_user_dict['approachability'] = user_approachability
         cur_user_dict['photo'] = url
         cur_user_dict['name'] = 'anon'
 
