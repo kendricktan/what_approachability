@@ -1,4 +1,4 @@
-import os, sys, cv2, glob, urllib2, httplib, urllib, base64, json
+import os, sys, cv2, glob, urllib2, httplib, urllib, base64, json, math
 import numpy as np
 from urlparse import urlparse
 
@@ -98,7 +98,6 @@ def get_emotion(url='http://www.scientificamerican.com/sciam/cache/file/35391452
         conn = httplib.HTTPSConnection('api.projectoxford.ai')
         conn.request("POST", "/emotion/v1.0/recognize?%s" % params, body , headers)
         response = conn.getresponse()
-        print("Send request")
 
         parsed_data = json.loads(response.read())[0]
         emotion_dict = parsed_data['scores']
@@ -114,7 +113,21 @@ def get_approachability(url):
     confidence = compare_eigenmodel(url)
     emotions = get_emotion(url)
 
-    return 42
+    relatability_percentage = abs(1-(confidence/10000))
+    normalize_emotions = math.sqrt(emotions['happiness']) - math.sqrt(emotions['contempt']**2+emotions['disgust']**2)
+
+    print(relatability_percentage, normalize_emotions)
+    print(emotions)
+
+    approachability = 0
+    # if less than 0 then person looks pissy
+    if normalize_emotions < 0:
+        approachability = abs(relatability_percentage - (0.5/(1+(math.e**-abs(normalize_emotions)))))
+
+    else:
+        approachability = abs(relatability_percentage + (0.5/(1+(math.e**-abs(normalize_emotions)))))
+
+    return '%.4f' % approachability
 
 
 
