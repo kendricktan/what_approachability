@@ -76,10 +76,11 @@ def compare_eigenmodel(url='http://i.imgur.com/q6IYKCO.jpg'):
         [label, confidence] = model.predict(cropped)
 
         # Lower the confidence, more attractive it is
-        print('Predicted label = %d, confidence = %.2f' % (label, confidence))
+        #print('Predicted label = %d, confidence = %.2f' % (label, confidence))
+        return confidence
 
 # Connects to microsoft's API to get emotion data
-def microsoft_api_get_emotion(url='http://www.scientificamerican.com/sciam/cache/file/35391452-5457-431A-A75B859471FAB0B3.jpg'):
+def get_emotion(url='http://www.scientificamerican.com/sciam/cache/file/35391452-5457-431A-A75B859471FAB0B3.jpg'):
     # Image to analyse (body of the request)
     body = '{\'URL\': \''+ url + '\'}'
 
@@ -94,18 +95,26 @@ def microsoft_api_get_emotion(url='http://www.scientificamerican.com/sciam/cache
     })
 
     try:
-       conn = httplib.HTTPSConnection('api.projectoxford.ai')
-       conn.request("POST", "/emotion/v1.0/recognize?%s" % params, body , headers)
-       response = conn.getresponse()
-       print("Send request")
+        conn = httplib.HTTPSConnection('api.projectoxford.ai')
+        conn.request("POST", "/emotion/v1.0/recognize?%s" % params, body , headers)
+        response = conn.getresponse()
+        print("Send request")
 
-       parsed_data = json.loads(response.read())[0]
-       print(parsed_data)
-       emotion_dict = parsed_data['scores']
-       for emotion in emotion_dict:
-           print(emotion, emotion_dict[emotion])
+        parsed_data = json.loads(response.read())[0]
+        emotion_dict = parsed_data['scores']
+        return emotion_dict
+        #for emotion in emotion_dict:
+        #   print(emotion, emotion_dict[emotion])
 
     except Exception as e:
-       print("[Errno {0}] {1}".format(e.errno, e.strerror))
+        print("[Errno {0}] {1}".format(e.errno, e.strerror))
 
-microsoft_api_emotion()
+# Finds out how approachable someone is
+def get_approachability(url):
+    confidence = compare_eigenmodel(url)
+    emotions = get_emotion(url)
+
+    return 42
+
+
+

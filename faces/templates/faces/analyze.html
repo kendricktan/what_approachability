@@ -1,0 +1,5 @@
+{%for user in user_list%}
+	<img src="{{user.photo}}" alt="{{user.name}}_photo" style='width:125px; height: 125px'>
+    <p>{{user.name}}</p>
+    <p> {{user.approachability}}</p>
+{% endfor %}

@@ -51,8 +51,8 @@ def get_users(username = 'kendricktan0814@gmail.com', password = 'tandahack2016'
     # Use token to get information about your userlist
     # And chucks it into json file
     users = json.loads(get("users", token).content)
-    #return users
+    return users
 
-    for user in users:
-        print(user['photo'])
-        print(user['name'])
+    #for user in users:
+    #    print(user['photo'])
+    #    print(user['name'])
