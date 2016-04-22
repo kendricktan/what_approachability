@@ -6,3 +6,6 @@ from django.db import models
 class tandaAccount(models.Model):
     email = models.CharField(max_length=200)
     password = models.CharField(max_length=50)
+
+class customURL(models.Model):
+    url = models.CharField(max_length=200)

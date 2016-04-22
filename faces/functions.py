@@ -116,8 +116,8 @@ def get_approachability(url):
     relatability_percentage = abs(1-(confidence/10000))
     normalize_emotions = math.sqrt(emotions['happiness']) - math.sqrt(emotions['contempt']**2+emotions['disgust']**2)
 
-    print(relatability_percentage, normalize_emotions)
-    print(emotions)
+    #print(relatability_percentage, normalize_emotions)
+    #print(emotions)
 
     approachability = 0
     # if less than 0 then person looks pissy

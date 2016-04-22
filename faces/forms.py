@@ -6,3 +6,8 @@ class DetailsForm(forms.ModelForm):
     class Meta:
         model = tandaAccount
         fields = '__all__'
+
+class URLForm(forms.ModelForm):
+    class Meta:
+        model = customURL
+        fields = '__all__'
