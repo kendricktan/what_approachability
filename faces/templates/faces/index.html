@@ -1,0 +1,13 @@
+<html>
+        <head>
+
+        </head>
+
+        <body>
+                <form action="/analyze/" method="post">
+                    {% csrf_token %}
+                    {{ detailsForm }}
+                    <input type="submit" value="Submit" />
+                </form>
+        </body>
+</html>
