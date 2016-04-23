@@ -80,6 +80,8 @@ def analyze(request):
 
         user_list.append(cur_user_dict)
 
+    user_list = sorted(user_list, key=lambda k:k['approachability'], reverse=True)
+
     return render(request, 'faces/analyze.html', {'user_list': user_list}) 
 
 def custom_url(request):
