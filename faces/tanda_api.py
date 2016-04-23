@@ -59,3 +59,21 @@ def get_users(username = 'kendricktan0814@gmail.com', password = 'tandahack2016'
     #for user in users:
     #    print(user['photo'])
     #    print(user['name'])
+
+    
+    #Get a token which you will use to authenticate yourself
+#Seperate scopes with spaces or leave blank for default scope
+def get_users_json(username = 'kendricktan0814@gmail.com', password = 'tandahack2016'):
+    token = authenticate(username, password, "user me")
+
+    try:
+        # Use token to get information about your userlist
+        # And chucks it into json file
+        users = get("users", token).content
+        return users
+    except:
+        return None 
+
+    #for user in users:
+    #    print(user['photo'])
+    #    print(user['name'])

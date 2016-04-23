@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from .forms import *
 from .functions import *
 import tanda_api
@@ -8,6 +8,10 @@ import tanda_api
 def index(request):
     form = DetailsForm()
     return render(request, 'faces/index.html', {'detailsForm' : form})
+
+def get_users(request):
+    users_json = tanda_api.get_users_json()
+    return HttpResponse(users_json)
 
 def analyze(request):
     if request.POST:
