@@ -134,29 +134,169 @@
               </div>
             </nav>
             
-			<div class="row">
-				{%for user in user_list%}
-				<div class="col-sm-6 sleeve">
-                	<div class="container-fluid card">
-							<div class="container-fluid left">
-		                        <img class="img-responsive portrait" alt="{{user.name}}_photo" src="{{user.photo}}">
-		                    </div>
-							
-							<div class="container-fluid right">
-								<h3><strong>{{user.name}}</strong> is feeling {{user.dorminant_emotion}}</h3>
-								<hr>
-									
-								<div class="progress">
-									<div class="progress-bar progress-bar-{{user.progress_bar_type}}" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:{{user.approachability}}%">
-							    		<span> Approachability: {{user.approachability}}% </span>							    
-									</div>
-								</div>
-							</div>
-					</div>
-				</div>
-				{% endfor %}
+			<div class="row" id="userHolder">
 			</div>
 		</div>	
 
+        
+        <script>
+        	var email = "{{email}}";
+        	var password= "{{password}}";
+        	var url = "{{url}}";
+
+        	console.log(email);
+        	console.log(password);
+        	console.log(url);
+
+            var loader = {
+    
+                holder: document.getElementById("userHolder"),
+                users: [],
+
+                init: function() {
+                    var htmlstring = '<div class="col-sm-6 sleeve"><div class="container-fluid card"><div class="container-fluid left"><img class="img-responsive portrait" src=""></div><div class="container-fluid right"><h3><strong class="name"></strong> is feeling <span class="dorminant_emotion"></span></h3><hr><div class="progress"><div class="progress-bar progress-bar-striped progress-bar-info active" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 100%;" ><span>Calculating Emotion</span></div></div></div></div></div>';
+                    var parent = document.createElement("div");
+                    parent.innerHTML = htmlstring;
+                    this.templateDiv = parent.firstChild;
+                },
+
+                 loadUsers: function() {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("GET", "/get_users");
+                    xhr.responseType = "json";
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                            var userObjs = xhr.response;
+                            for (var i = 0; i < userObjs.length; i++) {
+                                this.users.push(new User(this.addDiv(), userObjs[i]));
+                            }
+                            this.loadEmotions();
+                        }
+                    }.bind(this);
+                     xhr.send();
+                }, 
+
+                addDiv: function() {
+                    var newDiv = this.templateDiv.cloneNode(true);
+                    this.holder.appendChild(newDiv);
+                    return newDiv;
+                },
+
+                loadEmotions: function() {
+                	console.log("loading emotions");
+                    for (var i = 0; i < this.users.length; i++) {
+                        this.users[i].requestEmotion();
+                    }
+                },
+
+                addCustom: function(url) {
+                	var temp = {
+                		name: "Anon",
+                		photo: url
+                	};
+                	var userobj = new User(this.addDiv(), temp);
+                	this.users.push(userobj);
+                	userobj.requestEmotion();
+
+                }
+
+            };
+
+
+            function User(elem, obj) {
+                this.elem = elem;
+                this.data = obj;
+                this.status = User.Status.INITIAL;
+                this.emotionData = null;
+                this.error = "";
+
+                this.updateStatus();
+            }
+
+            User.Status = Object.freeze({
+                INITIAL: 0,
+                LOADING: 1,
+                FAILED: 2,
+                SUCCESS: 3,
+            });
+
+            User.prototype.requestEmotion = function() {
+                if (this.status !== User.Status.LOADING) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("GET", "/dump_json/" + this.data.photo);
+                    xhr.responseType = "json";
+
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === XMLHttpRequest.DONE) {
+                            if (xhr.status !== 200) {
+                                this.error = "http";
+                                this.status = User.Status.FAILED;
+                                this.updateStatus();
+                            } else if ( typeof xhr.response !== "object" ) {
+                                this.error = "malformed";
+                                this.status = User.Status.FAILED;
+                                this.updateStatus();
+                            } else {
+                                this.emotionData = xhr.response;
+                                this.status = User.Status.SUCCESS;
+                                this.updateStatus();
+                            }
+                        }
+                    }.bind(this);
+
+                    this.status = User.Status.LOADING;
+                    xhr.send();
+                }
+            };
+
+            User.prototype.updateStatus = function() {
+                var card = this.elem;
+                var img = card.getElementsByClassName("portrait")[0];
+                var nameSpan = card.getElementsByClassName("name")[0];
+                var emotSpan = card.getElementsByClassName("dorminant_emotion")[0];
+                var approachBar = card.getElementsByClassName("progress-bar")[0];
+                var approachSpan = approachBar.children[0];
+
+                img.src = this.data.photo;
+                nameSpan.textContent = this.data.name;
+
+                if (this.status === User.Status.SUCCESS){ 
+                    emotSpan.textContent = this.emotionData.dorminant_emotion;
+                    var jqBar = $(approachBar);
+                    jqBar.removeClass("active");
+
+                    var approach = this.emotionData.approachability;
+                    console.log(approach);
+                    if (approach < 25) {
+                    	jqBar.addClass("progress-bar-danger");
+                    	jqBar.removeClass("progress-bar-info");
+
+                    } else if (approach < 50) {
+                    	jqBar.addClass("progress-bar-warning");
+                    	jqBar.removeClass("progress-bar-info");
+                    } else if (approach > 75) {
+                    	jqBar.addClass("progress-bar-success");
+                    	jqBar.removeClass("progress-bar-info");
+                    }
+
+                    approachBar.style.width = this.emotionData.approachability + "%";
+
+
+                    approachSpan.textContent = "Approachability:" + this.emotionData.approachability + "%";    
+
+                } else {
+                    emotSpan.textContent = "nothing";
+                }
+            }
+
+            if (url == "") {
+	            loader.init();
+	            loader.loadUsers();
+	        }
+	        else{
+	        	loader.init();
+	        	loader.addCustom(url);
+	        }
+        </script>
 	</body>
 </html>

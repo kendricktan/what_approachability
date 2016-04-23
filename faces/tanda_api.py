@@ -45,7 +45,7 @@ def delete(extension, token):
 
 #Get a token which you will use to authenticate yourself
 #Seperate scopes with spaces or leave blank for default scope
-def get_users(username = 'kendricktan0814@gmail.com', password = 'tandahack2016'):
+def get_users(username, password):
     token = authenticate(username, password, "user me")
 
     try:
@@ -63,8 +63,8 @@ def get_users(username = 'kendricktan0814@gmail.com', password = 'tandahack2016'
     
     #Get a token which you will use to authenticate yourself
 #Seperate scopes with spaces or leave blank for default scope
-def get_users_json(username = 'kendricktan0814@gmail.com', password = 'tandahack2016'):
-    token = authenticate(username, password, "user me")
+def get_users_json(email = 'kendricktan0814@gmail.com', password = 'tandahack2016'):
+    token = authenticate(email, password, "user me")
 
     try:
         # Use token to get information about your userlist
