@@ -33,12 +33,22 @@ def analyze(request):
             user_name = user['name']
             user_approachability, dorminant_emotion = get_approachability(user_photo_url)
             if user_approachability is None:
-                user_approachability = 'image not found.'
+                user_approachability = 'image/face not found.'
 
             cur_user_dict['photo'] = user_photo_url
             cur_user_dict['name'] = user_name
             cur_user_dict['approachability'] = user_approachability
             cur_user_dict['dorminant_emotion'] = dorminant_emotion
+
+            progress_bar_type = 'info'
+            if user_approachability > 75:
+                progress_bar_type = 'success'
+            elif user_approachability < 50:
+                progress_bar_type = 'warning'
+            elif user_approachability < 25:
+                progress_bar_type = 'danger'
+
+            cur_user_dict['progress_bar_type'] = progress_bar_type
 
             user_list.append(cur_user_dict)
 
@@ -47,12 +57,22 @@ def analyze(request):
         user_approachability, dorminant_emotion = get_approachability(url)
 
         if user_approachability is None:
-            user_approachability = 'image not found.'
+            user_approachability = 'image/face not found.'
 
         cur_user_dict['approachability'] = user_approachability
         cur_user_dict['photo'] = url
         cur_user_dict['name'] = 'anon'
         cur_user_dict['dorminant_emotion'] = dorminant_emotion
+
+        progress_bar_type = 'info'
+        if user_approachability > 75:
+            progress_bar_type = 'success'
+        elif user_approachability < 50:
+            progress_bar_type = 'warning'
+        elif user_approachability < 25:
+            progress_bar_type = 'danger'
+
+        cur_user_dict['progress_bar_type'] = progress_bar_type
 
         user_list.append(cur_user_dict)
 

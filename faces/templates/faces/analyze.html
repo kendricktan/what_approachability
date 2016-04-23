@@ -1,6 +1,107 @@
-{%for user in user_list%}
-	<img src="{{user.photo}}" alt="{{user.name}}_photo" style='width:125px; height: 125px'>
-	<p><strong>{{user.name}}</strong> is feeling {{user.dorminant_emotion}}</p>
-    <p>approachability: {{user.approachability}}</p>
-    <hr>
-{% endfor %}
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+	    
+	    <title>Tanda EA</title>
+	    <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+	    <style type="text/css">
+	        body, html {
+	            height: 100%;
+	            width: 100%;
+	            padding: 0;
+	            margin: 0;
+	            font-family: verdana, geneva, sans-serif;
+	        }
+
+	        body {
+	            background-color: #F8F8F8;
+	        }
+
+	        .card-holder {
+	        }
+	        
+	        .sleeve {
+	            padding: 10px;
+	        }
+	        
+	        .card {
+	            height: 100%;
+	            background-color: #FEFEFE;
+	            padding: 0;
+	            border-right: 8px solid #E4E4E4;
+	            border-top: 5px solid #EFEFEF;
+	        }
+	        
+	        .img-responsive.portrait {
+	        }
+	        
+	        .left {
+	            float: left;
+	            height: 100%;
+	            width: 30%;
+	            min-width: 30%;
+	            padding: 0;
+	            padding-right: 10px;
+	        }
+	        
+	        .right {
+	            width: 100%;
+	            padding-top: 10px;
+	        }
+	        
+	        hr{
+	            height: 1px;
+	            color: #AAAAAA;
+	            background: #AAAAAA;
+	            border: 0;
+	        }
+	        
+	        .progress {
+	            position: relative;
+	        }
+
+	        .progress span {
+	            position: absolute;
+	            display: block;
+	            width: 100%;
+	            color: black;
+	         }
+	    </style>
+	    
+	</head>
+
+	<body>
+		<div class="container-fluid card-holder">
+			<div class="row">
+				{%for user in user_list%}
+				<div class="col-sm-6 sleeve">
+                	<div class="container-fluid card">
+							<div class="container-fluid left">
+		                        <img class="img-responsive portrait" alt="{{user.name}}_photo" src="{{user.photo}}">
+		                    </div>
+							
+							<div class="container-fluid right">
+								<h3><strong>{{user.name}}</strong> is feeling {{user.dorminant_emotion}}</h3>
+								<hr>
+									
+								<div class="progress">
+									<div class="progress-bar progress-bar-{{user.progress_bar_type}}" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:{{user.approachability}}%">
+							    		<span> Approachability: {{user.approachability}}% </span>							    
+									</div>
+								</div>
+							</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>	
+
+	</body>
+</html>

@@ -77,6 +77,9 @@ def compare_eigenmodel(url='http://i.imgur.com/q6IYKCO.jpg'):
 
     rects = get_faces_rect(image)
 
+    if rects is None:
+        return None
+
     for (x1, y1, w, h) in rects:
         cropped = np.copy(image[y1:y1+h, x1:x1+w])
         cropped = cv2.resize(cropped, (256, 256))
@@ -119,10 +122,10 @@ def get_emotion(url='http://www.scientificamerican.com/sciam/cache/file/35391452
 def get_approachability(url):
     confidence = compare_eigenmodel(url)
     if confidence is None:
-        return None
+        return None, None
     emotions = get_emotion(url)
 
-    relatability_percentage = abs(1-(confidence/10000))
+    relatability_percentage = 0.7*abs(1-(confidence/10000))
     normalize_emotions = math.sqrt(emotions['happiness']) - math.sqrt(emotions['contempt']**2+emotions['anger']**2)
 
     dominantEmotion = 'neutral' 
@@ -141,7 +144,9 @@ def get_approachability(url):
     else:
         approachability = abs(relatability_percentage + (0.5/(1+(math.e**-abs(normalize_emotions)))))
 
-    return '%.4f' % approachability, dominantEmotion
+    approachability *= 100
+
+    return int(approachability), dominantEmotion
 
 
 
