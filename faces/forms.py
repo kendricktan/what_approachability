@@ -6,6 +6,10 @@ class DetailsForm(forms.ModelForm):
     class Meta:
         model = tandaAccount
         fields = '__all__'
+        #widgets = {
+        #    'email': forms.TextInput(attrs={'placeholder': 'email'}), 
+        #    'password': forms.PasswordInput(attrs={'placeholder': 'password'}), 
+        #}
 
 class URLForm(forms.ModelForm):
     class Meta:

@@ -6,7 +6,7 @@
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
 	    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-	    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	    <script src="http0px    maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 	    <style type="text/css">
 		html, body {
@@ -23,11 +23,6 @@
 		    vertical-align: middle;
 		    background-color: #F8F8F8;
 		}
-
-		input{
-			width: 100%;
-		}
-
 
 		.form-main {
 		    margin-top: -50px;
@@ -59,21 +54,14 @@
 
 
         <body>
-			<div class="container-fluid form-main" style="max-width:500px">
-				<img src="https://www.tanda.co/wp-content/uploads/2015/09/tanda_logo.png" class="img-responsive login-logo" alt="TandaEA">				
+		<div class="container-fluid form-main" style="max-width:500px">
+	        <img src="https://www.tanda.co/wp-content/uploads/2015/09/tanda_logo.png" class="img-responsive login-logo" alt="TandaEA">
 
-				<form action="/analyze/" method="post">
-						{% csrf_token %}
-					
-						<div class="form-group has-feedback"> 
-							Email: {{detailsForm.email}}							
-						</div>
-					
-						<div class="form-group has-feedback"> 
-							Password: {{detailsForm.password}}						
-						</div>																		
-						<input type="submit" value="Sign In" class="btn btn-primary btn-block submit-btn">
-				</form>
-			</div>  
+                <form action="/analyze/" method="post">
+                    {% csrf_token %}
+                    {{ detailsForm }}
+                    <input type="submit" value="Submit" />
+                </form>
+		</div>  
         </body>
 </html>
