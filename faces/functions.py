@@ -123,7 +123,12 @@ def get_approachability(url):
     emotions = get_emotion(url)
 
     relatability_percentage = abs(1-(confidence/10000))
-    normalize_emotions = math.sqrt(emotions['happiness']) - math.sqrt(emotions['contempt']**2+emotions['disgust']**2)
+    normalize_emotions = math.sqrt(emotions['happiness']) - math.sqrt(emotions['contempt']**2+emotions['anger']**2)
+
+    dominantEmotion = 'neutral' 
+    for emotion in emotions:
+        if emotions[emotion] > emotions[dominantEmotion]:
+            dominantEmotion = emotion
 
     #print(relatability_percentage, normalize_emotions)
     #print(emotions)
@@ -136,7 +141,7 @@ def get_approachability(url):
     else:
         approachability = abs(relatability_percentage + (0.5/(1+(math.e**-abs(normalize_emotions)))))
 
-    return '%.4f' % approachability
+    return '%.4f' % approachability, dominantEmotion
 
 
 

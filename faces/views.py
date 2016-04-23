@@ -31,19 +31,20 @@ def analyze(request):
 
             user_photo_url = user['photo']
             user_name = user['name']
-            user_approachability = get_approachability(user_photo_url)
+            user_approachability, dorminant_emotion = get_approachability(user_photo_url)
             if user_approachability is None:
                 user_approachability = 'image not found.'
 
             cur_user_dict['photo'] = user_photo_url
             cur_user_dict['name'] = user_name
             cur_user_dict['approachability'] = user_approachability
+            cur_user_dict['dorminant_emotion'] = dorminant_emotion
 
             user_list.append(cur_user_dict)
 
     elif len(url) > 0:
         cur_user_dict = {}
-        user_approachability = get_approachability(url)
+        user_approachability, dorminant_emotion = get_approachability(url)
 
         if user_approachability is None:
             user_approachability = 'image not found.'
@@ -51,6 +52,7 @@ def analyze(request):
         cur_user_dict['approachability'] = user_approachability
         cur_user_dict['photo'] = url
         cur_user_dict['name'] = 'anon'
+        cur_user_dict['dorminant_emotion'] = dorminant_emotion
 
         user_list.append(cur_user_dict)
 

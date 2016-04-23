@@ -1,6 +1,6 @@
 {%for user in user_list%}
 	<img src="{{user.photo}}" alt="{{user.name}}_photo" style='width:125px; height: 125px'>
-    <p>name: {{user.name}}</p>
+	<p><strong>{{user.name}}</strong> is feeling {{user.dorminant_emotion}}</p>
     <p>approachability: {{user.approachability}}</p>
     <hr>
 {% endfor %}
