@@ -61,3 +61,17 @@ def analyze(request):
 def custom_url(request):
     urlForm = URLForm() 
     return render(request, 'faces/custom_url.html', {'urlForm': urlForm})
+
+def dump_json(request, url):
+    user_dict = {}
+    user_approachability, dorminant_emotion = get_approachability(url)
+
+    if user_approachability is not None:
+        user_dict['approachability'] = user_approachability
+        user_dict['dorminant_emotion'] = dorminant_emotion
+
+    else:
+        user_dict['error'] = 'no picture in url found'
+
+    json_return = json.dumps(user_dict)
+    return HttpResponse(json_return)
