@@ -1,13 +1,71 @@
 <html>
-	<head>
-	
+    <head>
+	    
+	    <title>Custom Urls</title>
+	    <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+	    <style type="text/css">
+		html, body {
+		    height: 100%;
+		    width: 100%;
+		    margin: 0;
+		    padding: 0;
+		    display: table;
+		    font-family: verdana, geneva, sans-serif;
+		}
+
+		body {
+		    display: table-cell;
+		    vertical-align: middle;
+		    background-color: #F8F8F8;
+		}
+
+		input{
+			width: 100%;
+		}
+
+
+		.form-main {
+		    margin-top: -50px;
+		}
+
+		.login-text {
+		    background-color: #FDFDFD;
+		}
+
+		.img-responsive.login-logo {
+		    max-width: 50%;
+		    margin-bottom: 20px;
+		    margin-left: auto;
+		    margin-right: auto;
+		}
+
+		.btn-block.submit-btn {
+		    background-color: #45AFD6;
+		    border: 1px solid #45AFD6;
+		    margin-top: 20px;
+		}
+
+		.btn-block.submit-btn:hover {
+		    background-color: #58C2E9;
+		}
+	    </style>
+	    
 	</head>
 
 	<body>
-		<form action='/analyze/' method='post'>
-			{% csrf_token %}
-			{{ urlForm }}
-			<input type="submit" value="submit"/>
-		</form>
+		<div class="container-fluid form-main" style="max-width:500px">
+			<h1><p class="text-center">Custom URLs</p></h1>
+			<hr/>
+			<form action='/analyze/' method='post'>
+				{% csrf_token %}
+				{{ urlForm.url }}
+				<input type="submit" value="submit" class="btn btn-primary btn-block submit-btn">
+			</form>
+		</div>
 	</body>
-</html>>
+</html>
