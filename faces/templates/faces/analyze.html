@@ -12,73 +12,128 @@
 	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 	    <style type="text/css">
-	        body, html {
-	            height: 100%;
-	            width: 100%;
-	            padding: 0;
-	            margin: 0;
-	            font-family: verdana, geneva, sans-serif;
-	        }
+            body, html {
+                height: 100%;
+                width: 100%;
+                padding: 0;
+                margin: 0;
+                font-family: verdana, geneva, sans-serif;
+            }
 
-	        body {
-	            background-color: #F8F8F8;
-	        }
+            body {
+                background-color: #F8F8F8;
+            }
 
-	        .card-holder {
-	        }
-	        
-	        .sleeve {
-	            padding: 10px;
-	        }
-	        
-	        .card {
-	            height: 100%;
-	            background-color: #FEFEFE;
-	            padding: 0;
-	            border-right: 8px solid #E4E4E4;
-	            border-top: 5px solid #EFEFEF;
-	        }
-	        
-	        .img-responsive.portrait {
-	        }
-	        
-	        .left {
-	            float: left;
-	            height: 100%;
-	            width: 30%;
-	            min-width: 30%;
-	            padding: 0;
-	            padding-right: 10px;
-	        }
-	        
-	        .right {
-	            width: 100%;
-	            padding-top: 10px;
-	        }
-	        
-	        hr{
-	            height: 1px;
-	            color: #AAAAAA;
-	            background: #AAAAAA;
-	            border: 0;
-	        }
-	        
-	        .progress {
-	            position: relative;
-	        }
+            @media all and (max-width: 500px) { /* screen size until 1000px */
+                .progress span {
+                    font-size: 0.8em;
+                }
+            }
 
-	        .progress span {
-	            position: absolute;
-	            display: block;
-	            width: 100%;
-	            color: black;
-	         }
+
+            @media all and (max-width: 768px) { /* screen size until 1000px */
+                h3 {
+                    font-size: 0.9em; /* 1.2x default size */
+                }
+
+                .progress span {
+                    font-size: 0.9em;
+                }
+            }
+
+            @media all and (max-width: 1000px) { /* screen size until 1000px */
+                h3 {
+                    font-size: 0.95em; /* 1.2x default size */
+                }
+            }
+
+            .card-holder {
+                padding-top: 55px;
+            }
+
+            .sleeve {
+                padding: 10px;
+            }
+
+            .card {
+                height: 100%;
+                background-color: #FEFEFE;
+                padding: 0;
+                border-right: 8px solid #E4E4E4;
+                border-top: 5px solid #EFEFEF;
+            }
+
+            .img-responsive.portrait {
+            }
+
+            .left {
+                float: left;
+                height: 100%;
+                width: 30%;
+                min-width: 120px;
+                padding: 0;
+                padding-right: 10px;
+            }
+
+            .right {
+                width: 100%;
+                padding-top: 10px;
+            }
+
+            hr{
+                height: 1px;
+                color: #AAAAAA;
+                background: #AAAAAA;
+                border: 0;
+            }
+
+            .progress {
+                position: relative;
+            }
+
+            .progress span {
+                position: absolute;
+                display: block;
+                width: 100%;
+                color: black;
+             }
+
+            .navbar-default {
+                background-color: white;
+                border-radius: 0;
+                border: 0;            
+                -webkit-box-shadow: 0 8px 6px -6px #AAAAAA;
+                -moz-box-shadow: 0 8px 6px -6px #AAAAAA;
+                box-shadow: 0 8px 6px -6px #AAAAAA;
+
+            }
+
+            .logo {
+                max-height: 53px;  position: absolute;
+                left: 50%;
+                margin-left: -90px !important;  /* 50% of your logo width */
+                display: block;
+            }
 	    </style>
 	    
 	</head>
 
 	<body>
 		<div class="container-fluid card-holder">
+            <nav class="navbar navbar-default navbar-fixed-top">
+              <div class="container-fluid">
+
+                <a href="#"><img class="img-responsive logo" src="images/tanda_logo.png"></a>
+                  
+                <div class="collapse navbar-collapse" id="myNavbar">
+                  <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"><span class="glyphicon glyphicon-plus"></span> Add New</a></li>
+                  </ul>
+                </div>
+
+              </div>
+            </nav>
+            
 			<div class="row">
 				{%for user in user_list%}
 				<div class="col-sm-6 sleeve">
