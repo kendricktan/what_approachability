@@ -99,5 +99,5 @@ def dump_json(request, url):
     else:
         user_dict['error'] = 'no picture in url found'
 
-    json_return = json.dumps(user_dict)
-    return HttpResponse(json_return)
+    #json_return = json.dumps(user_dict)
+    return JsonResponse(user_dict)
