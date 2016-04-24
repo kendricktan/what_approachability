@@ -13,6 +13,11 @@
 ![obama](http://i.imgur.com/ntimQEK.png)
 ![trump](http://i.imgur.com/Hz5rrKO.png)
 
+# Dependencies
+	python - 2.7.10
+	opencv - 2.4.10
+	django - 1.9.5
+
 # Getting started
 
 	python manage.py makemigrations
