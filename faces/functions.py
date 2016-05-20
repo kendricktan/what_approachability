@@ -100,7 +100,7 @@ def get_emotion(url='http://www.scientificamerican.com/sciam/cache/file/35391452
     }
 
     params = urllib.urlencode({
-       'subscription-key': 'bf13dfec6c98434e886a8818b949afd6',  # Enter EMOTION API key
+       'subscription-key': 'dfefaa9c43a24b079ca85f456d536b2a',  # Enter EMOTION API key
        #'faceRectangles': '',
     })
 
